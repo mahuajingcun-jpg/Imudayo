@@ -26,16 +26,18 @@
     }
     .pixel-frame img { width: 100%; height: 160px; object-fit: contain; border-radius: 8px; }
     p { color: #ff2a6d; font-size: 1.1rem; margin: 10px 0; text-shadow: 1px 1px 0px #fff; line-height: 1.4; }
-    .btn-container { display: flex; justify-content: center; align-items: center; gap: 12px; margin-top: 15px; flex-wrap: wrap; }
+    .btn-container { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; position: relative; }
+    .btn-row { display: flex; justify-content: center; align-items: center; gap: 15px; width: 100%; }
     .btn-yes {
-      background: #ff2a6d; color: white; border: 3px solid #fff; padding: 10px 20px;
-      font-size: 1.4rem; border-radius: 12px; cursor: pointer; box-shadow: 0 6px 0 #b3003b;
+      background: #ff2a6d; color: white; border: 3px solid #fff; padding: 10px 24px;
+      font-size: 1.5rem; border-radius: 12px; cursor: pointer; box-shadow: 0 6px 0 #b3003b;
       transition: all 0.2s ease; z-index: 999;
     }
     .btn-no {
       background: #888; color: white; border: 3px solid #fff; padding: 8px 16px;
-      font-size: 1.1rem; border-radius: 12px; cursor: pointer; box-shadow: 0 6px 0 #555;
+      font-size: 1rem; border-radius: 12px; cursor: pointer; box-shadow: 0 6px 0 #555;
     }
+    .plead-text { color: #d61c57; font-size: 0.95rem; font-weight: bold; min-height: 24px; margin-bottom: 5px; }
     .option-btn {
       background: #fff; color: #ff2a6d; border: 2px solid #ff2a6d; padding: 8px;
       margin: 5px 0; border-radius: 8px; width: 100%; cursor: pointer; font-size: 0.95rem; text-align: left;
@@ -46,11 +48,11 @@
     .window-box { background: #fff; border: 3px solid #ff2a6d; border-radius: 8px; padding: 14px; text-align: left; }
     .window-header { background: #ff2a6d; color: #fff; padding: 4px 8px; font-size: 0.9rem; margin: -14px -14px 12px -14px; border-radius: 4px 4px 0 0; }
     
-    .seal-grid {
+    .chiikawa-grid {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 10px; padding: 6px;
       background: #ffe6ed; border-radius: 10px; border: 2px dashed #ff2a6d;
     }
-    .seal-grid img { width: 100%; height: 75px; object-fit: cover; border-radius: 6px; }
+    .chiikawa-grid img { width: 100%; height: 80px; object-fit: cover; border-radius: 6px; }
 
     .warning-box {
       background: #fff0f5; border: 2px dashed #ff2a6d; padding: 10px; border-radius: 8px;
@@ -60,10 +62,10 @@
 </head>
 <body>
 
-  <!-- STEP 0: HP 診断 -->
+  <!-- STEP 0: HP 診断 (クロミちゃん) -->
   <div id="step0" class="card">
     <div class="pixel-frame">
-      <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Zany%20Face.png" alt="Energy Check">
+      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3ZtZHN6N2xwdjV3aWJidXJ6c2Jya2Z3YTNxeXg3aG15dTVtdyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/kZqbBT64ECtjy/giphy.gif" alt="Kuromi Pixel">
     </div>
     <p>⚡ 오늘 자기의 체력(HP) 상태는?</p>
     <button class="option-btn" onclick="selectHp(this, '100% (에너지 폭발! ⚡)')">🟩 100% (에너지 폭발! ⚡)</button>
@@ -72,22 +74,25 @@
     <button class="btn-yes" style="font-size:1.1rem; margin-top:10px; width:100%;" onclick="startQuestion()">진단 완료 & 다음으로!</button>
   </div>
 
-  <!-- STEP 1: YES大暴走 & 泣きつき -->
+  <!-- STEP 1: YES大暴走 & 泣きつき (キティちゃん) -->
   <div id="step1" class="card hidden">
     <div class="pixel-frame">
-      <img id="catImg" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Cat%20with%20Tears%20of%20Joy.png" alt="Cute Cat">
+      <img id="catImg" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3h6Z3F1cXZ4NDF6ZnR6YmxzY3F1YnBhZzZydnZ0OHRsc3lndyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/C9x8gX02fJzyw/giphy.gif" alt="Kitty Pixel">
     </div>
     <p id="question-text">저랑 데이트 하실래요? 💖</p>
+    <div class="plead-text" id="pleadText"></div>
     <div class="btn-container">
-      <button id="yesBtn" class="btn-yes" onclick="nextStep(2)">YES!</button>
-      <button id="noBtn" class="btn-no" onclick="growYes()">NO...</button>
+      <div class="btn-row">
+        <button id="yesBtn" class="btn-yes" onclick="nextStep(2)">YES!</button>
+        <button id="noBtn" class="btn-no" onclick="growYes()">NO...</button>
+      </div>
     </div>
   </div>
 
-  <!-- STEP 2: 日付 & デート場所選び -->
+  <!-- STEP 2: 日付 & デート場所選び (サンリオ) -->
   <div id="step2" class="card hidden">
     <div class="pixel-frame">
-      <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Smiling%20Face%20with%20Heart-Eyes.png" alt="Love Emoji">
+      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNmNzaWh0Z2FqbmZ2ZnZyd3FwOTN2YmhxcWx6cnE5bndnbzBpbnN0eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/kZqbBT64ECtjy/giphy.gif" alt="Sanrio Love">
     </div>
     <p>어디서 만날까요? ✨</p>
     <input type="date" id="datePicker"><br>
@@ -101,10 +106,10 @@
     <button class="btn-yes" style="font-size:1.2rem; margin-top:10px; width:100%;" onclick="nextStep(3)">계속하기</button>
   </div>
 
-  <!-- STEP 3: 確定画面 -->
+  <!-- STEP 3: 確定画面 (キティちゃん) -->
   <div id="step3" class="card hidden">
     <div class="pixel-frame">
-      <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Kissing%20Cat.png" alt="Kiss Cat">
+      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3h6Z3F1cXZ4NDF6ZnR6YmxzY3F1YnBhZzZydnZ0OHRsc3lndyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/C9x8gX02fJzyw/giphy.gif" alt="Kitty Happy">
     </div>
     <p style="font-size: 1.3rem;">데이트 확정! 🎉</p>
     <div style="background:#fff; border:2px solid #ff2a6d; border-radius:8px; padding:10px; margin-bottom:12px; color:#ff2a6d; text-align:left; font-size:0.95rem;">
@@ -115,7 +120,7 @@
     <button class="btn-yes" style="font-size:1.1rem; width:100%;" onclick="nextStep(4)">새 메시지 1개 ✉️</button>
   </div>
 
-  <!-- STEP 4: ラブレター & アザラシ大集合 -->
+  <!-- STEP 4: ラブレター & ちいかわ大集合 -->
   <div id="step4" class="card hidden">
     <div class="window-box">
       <div class="window-header">love_note.txt</div>
@@ -128,14 +133,14 @@
       </div>
     </div>
 
-    <!-- アザラシ大集合 -->
-    <div class="seal-grid">
-      <img src="https://images.unsplash.com/photo-1598439210625-5067c578f3f6?auto=format&fit=crop&w=300&q=80" alt="Seal 1">
-      <img src="https://images.unsplash.com/photo-1551244072-5d12893278ab?auto=format&fit=crop&w=300&q=80" alt="Seal 2">
-      <img src="https://images.unsplash.com/photo-1598439210625-5067c578f3f6?auto=format&fit=crop&w=300&q=80" alt="Seal 3">
-      <img src="https://images.unsplash.com/photo-1551244072-5d12893278ab?auto=format&fit=crop&w=300&q=80" alt="Seal 4">
-      <img src="https://images.unsplash.com/photo-1598439210625-5067c578f3f6?auto=format&fit=crop&w=300&q=80" alt="Seal 5">
-      <img src="https://images.unsplash.com/photo-1551244072-5d12893278ab?auto=format&fit=crop&w=300&q=80" alt="Seal 6">
+    <!-- ちいかわ大集合 -->
+    <div class="chiikawa-grid">
+      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMHgyY2szdWdrbHRueHoxbmsxeGpmYmpxa3Axa3AwYWhuaG02OXg1YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Lq0h93752f6J9tijrh/giphy.gif" alt="Chiikawa 1">
+      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3hyZm1uaGFkZjFnOTJiaTlxcXR1Mnp3ajVraTFhMnlhaW9ndHJycCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l0HlU0N8eTj53UoTe/giphy.gif" alt="Chiikawa 2">
+      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMHgyY2szdWdrbHRueHoxbmsxeGpmYmpxa3Axa3AwYWhuaG02OXg1YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Lq0h93752f6J9tijrh/giphy.gif" alt="Chiikawa 3">
+      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3hyZm1uaGFkZjFnOTJiaTlxcXR1Mnp3ajVraTFhMnlhaW9ndHJycCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l0HlU0N8eTj53UoTe/giphy.gif" alt="Chiikawa 4">
+      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMHgyY2szdWdrbHRueHoxbmsxeGpmYmpxa3Axa3AwYWhuaG02OXg1YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Lq0h93752f6J9tijrh/giphy.gif" alt="Chiikawa 5">
+      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3hyZm1uaGFkZjFnOTJiaTlxcXR1Mnp3ajVraTFhMnlhaW9ndHJycCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l0HlU0N8eTj53UoTe/giphy.gif" alt="Chiikawa 6">
     </div>
 
     <!-- スクショ警告 -->
@@ -155,11 +160,9 @@
       "에... 진짜로? 😭",
       "거짓말이지? 다시 생각해봐! 🥺",
       "DJ 해서 피곤한 건 알지만!! 🎧",
-      "근육 때문에 YES 버튼 안 보이는 거지?! 💪",
-      "무조건 YES!! 💖"
+      "근육 때문에 YES 버튼 안 보이는 거지?! 💪"
     ];
 
-    // Web Audio API による効果音再生
     function playSound(type) {
       try {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -214,21 +217,21 @@
     function growYes() {
       playSound('grow');
       noCount++;
-      yesScale += 0.5;
+      yesScale += 0.4;
       const yesBtn = document.getElementById('yesBtn');
       const noBtn = document.getElementById('noBtn');
+      const pleadText = document.getElementById('pleadText');
       
       yesBtn.style.transform = `scale(${yesScale})`;
 
       if (noCount < noTexts.length) {
-        noBtn.innerText = noTexts[noCount];
+        pleadText.innerText = noTexts[noCount];
+      } else {
+        pleadText.innerText = "무조건 YES!! 💖";
       }
 
       if (noCount >= 4) {
         document.getElementById('question-text').innerText = "YES밖에 선택할 수 없어요! 💕";
-      }
-
-      if (yesScale > 3.5) {
         noBtn.style.display = 'none';
       }
     }
