@@ -24,7 +24,8 @@
       padding: 8px; margin-bottom: 12px; box-shadow: inset 0 0 0 2px #ff85a2;
       display: flex; justify-content: center; align-items: center; min-height: 160px; overflow: hidden;
     }
-    .pixel-frame img, .pixel-frame svg { width: 100%; height: 160px; object-fit: contain; border-radius: 8px; }
+    .pixel-frame img { width: 100%; height: 160px; object-fit: contain; border-radius: 8px; }
+    .pixel-frame-emoji { font-size: 5rem; }
     p { color: #ff2a6d; font-size: 1.1rem; margin: 10px 0; text-shadow: 1px 1px 0px #fff; line-height: 1.4; }
     .btn-container { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; position: relative; }
     .btn-row { display: flex; justify-content: center; align-items: center; gap: 15px; width: 100%; }
@@ -66,7 +67,7 @@
 </head>
 <body>
 
-  <!-- STEP 0: HP 診断 (元の可愛いキティちゃん) -->
+  <!-- STEP 0: HP 診断 (さっきのキティちゃん) -->
   <div id="step0" class="card">
     <div class="pixel-frame">
       <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Cat%20with%20Tears%20of%20Joy.png" alt="Cute Cat">
@@ -78,7 +79,7 @@
     <button class="btn-yes" style="font-size:1.1rem; margin-top:10px; width:100%;" onclick="startQuestion()">진단 완료 & 다음으로!</button>
   </div>
 
-  <!-- STEP 1: YES大暴走 (元の可愛いキティちゃん) -->
+  <!-- STEP 1: YES大暴走 (さっきのキティちゃん) -->
   <div id="step1" class="card hidden">
     <div class="pixel-frame">
       <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Cat%20with%20Tears%20of%20Joy.png" alt="Cute Cat">
@@ -95,9 +96,7 @@
 
   <!-- STEP 2: 日付 & デート場所選び -->
   <div id="step2" class="card hidden">
-    <div class="pixel-frame">
-      <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Smiling%20Face%20with%20Heart-Eyes.png" alt="Love Emoji">
-    </div>
+    <div class="pixel-frame pixel-frame-emoji">💌</div>
     <p>어디서 만날까요? ✨</p>
     <input type="date" id="datePicker"><br>
     
@@ -112,9 +111,7 @@
 
   <!-- STEP 3: 確定画面 -->
   <div id="step3" class="card hidden">
-    <div class="pixel-frame">
-      <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Kissing%20Cat.png" alt="Kiss Cat">
-    </div>
+    <div class="pixel-frame pixel-frame-emoji">😽🎉</div>
     <p style="font-size: 1.3rem;">데이트 확정! 🎉</p>
     <div style="background:#fff; border:2px solid #ff2a6d; border-radius:8px; padding:10px; margin-bottom:12px; color:#ff2a6d; text-align:left; font-size:0.95rem;">
       <div>⚡ 체력: <span id="selectedHp">100%</span></div>
@@ -124,7 +121,7 @@
     <button class="btn-yes" style="font-size:1.1rem; width:100%;" onclick="nextStep(4)">새 메시지 1개 ✉️</button>
   </div>
 
-  <!-- STEP 4: ラブレター -->
+  <!-- STEP 4: ラブレター (あさかより) -->
   <div id="step4" class="card hidden">
     <div class="window-box">
       <div class="window-header">love_note.txt</div>
