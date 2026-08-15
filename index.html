@@ -24,7 +24,7 @@
       padding: 8px; margin-bottom: 12px; box-shadow: inset 0 0 0 2px #ff85a2;
       display: flex; justify-content: center; align-items: center; min-height: 160px;
     }
-    .pixel-frame img { width: 100%; height: 160px; object-fit: contain; border-radius: 8px; }
+    .pixel-frame svg, .pixel-frame img { width: 100%; height: 160px; object-fit: contain; border-radius: 8px; }
     p { color: #ff2a6d; font-size: 1.1rem; margin: 10px 0; text-shadow: 1px 1px 0px #fff; line-height: 1.4; }
     .btn-container { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; position: relative; }
     .btn-row { display: flex; justify-content: center; align-items: center; gap: 15px; width: 100%; }
@@ -48,11 +48,14 @@
     .window-box { background: #fff; border: 3px solid #ff2a6d; border-radius: 8px; padding: 14px; text-align: left; }
     .window-header { background: #ff2a6d; color: #fff; padding: 4px 8px; font-size: 0.9rem; margin: -14px -14px 12px -14px; border-radius: 4px 4px 0 0; }
     
-    .chiikawa-grid {
+    .grid-box {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 10px; padding: 6px;
       background: #ffe6ed; border-radius: 10px; border: 2px dashed #ff2a6d;
     }
-    .chiikawa-grid img { width: 100%; height: 80px; object-fit: cover; border-radius: 6px; }
+    .grid-box div {
+      background: #fff; border-radius: 6px; height: 75px; display: flex;
+      justify-content: center; align-items: center; font-size: 2rem; border: 1px solid #ff85a2;
+    }
 
     .warning-box {
       background: #fff0f5; border: 2px dashed #ff2a6d; padding: 10px; border-radius: 8px;
@@ -62,10 +65,24 @@
 </head>
 <body>
 
-  <!-- STEP 0: HP 診断 (クロミちゃん) -->
+  <!-- STEP 0: HP 診断 (クロミ風ピクセルイラスト) -->
   <div id="step0" class="card">
     <div class="pixel-frame">
-      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3ZtZHN6N2xwdjV3aWJidXJ6c2Jya2Z3YTNxeXg3aG15dTVtdyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/kZqbBT64ECtjy/giphy.gif" alt="Kuromi Pixel">
+      <svg viewBox="0 0 100 100" width="100%" height="100%">
+        <rect width="100" height="100" fill="#fff"/>
+        <!-- クロミ風頭巾 -->
+        <path d="M 20 50 Q 20 20 50 20 Q 80 20 80 50 Z" fill="#333"/>
+        <circle cx="25" cy="20" r="10" fill="#333"/>
+        <circle cx="75" cy="20" r="10" fill="#333"/>
+        <polygon points="50,25 45,35 55,35" fill="#ff69b4"/>
+        <!-- 顔 -->
+        <ellipse cx="50" cy="55" rx="25" ry="20" fill="#fff0f5"/>
+        <ellipse cx="40" cy="52" rx="3" ry="5" fill="#333"/>
+        <ellipse cx="60" cy="52" rx="3" ry="5" fill="#333"/>
+        <path d="M 45 60 Q 50 65 55 60" stroke="#ff2a6d" stroke-width="2" fill="none"/>
+        <circle cx="33" cy="58" r="4" fill="#ffb6c1"/>
+        <circle cx="67" cy="58" r="4" fill="#ffb6c1"/>
+      </svg>
     </div>
     <p>⚡ 오늘 자기의 체력(HP) 상태는?</p>
     <button class="option-btn" onclick="selectHp(this, '100% (에너지 폭발! ⚡)')">🟩 100% (에너지 폭발! ⚡)</button>
@@ -74,10 +91,29 @@
     <button class="btn-yes" style="font-size:1.1rem; margin-top:10px; width:100%;" onclick="startQuestion()">진단 완료 & 다음으로!</button>
   </div>
 
-  <!-- STEP 1: YES大暴走 & 泣きつき (キティちゃん) -->
+  <!-- STEP 1: YES大暴走 & 泣きつき (キティちゃんピクセルイラスト) -->
   <div id="step1" class="card hidden">
     <div class="pixel-frame">
-      <img id="catImg" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3h6Z3F1cXZ4NDF6ZnR6YmxzY3F1YnBhZzZydnZ0OHRsc3lndyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/C9x8gX02fJzyw/giphy.gif" alt="Kitty Pixel">
+      <svg viewBox="0 0 100 100" width="100%" height="100%">
+        <rect width="100" height="100" fill="#fff"/>
+        <!-- キティ風顔 -->
+        <ellipse cx="50" cy="50" rx="35" ry="28" fill="#fff" stroke="#ff2a6d" stroke-width="3"/>
+        <polygon points="20,30 25,10 40,25" fill="#fff" stroke="#ff2a6d" stroke-width="3"/>
+        <polygon points="80,30 75,10 60,25" fill="#fff" stroke="#ff2a6d" stroke-width="3"/>
+        <!-- リボン -->
+        <circle cx="70" cy="25" r="7" fill="#ff2a6d"/>
+        <circle cx="60" cy="22" r="6" fill="#ff2a6d"/>
+        <circle cx="80" cy="28" r="6" fill="#ff2a6d"/>
+        <!-- 目・鼻 -->
+        <ellipse cx="38" cy="50" rx="3.5" ry="5" fill="#333"/>
+        <ellipse cx="62" cy="50" rx="3.5" ry="5" fill="#333"/>
+        <ellipse cx="50" cy="56" rx="4" ry="3" fill="#ffcc00"/>
+        <!-- ひげ -->
+        <line x1="15" y1="48" x2="28" y2="50" stroke="#333" stroke-width="2"/>
+        <line x1="15" y1="56" x2="28" y2="56" stroke="#333" stroke-width="2"/>
+        <line x1="72" y1="50" x2="85" y2="48" stroke="#333" stroke-width="2"/>
+        <line x1="72" y1="56" x2="85" y2="56" stroke="#333" stroke-width="2"/>
+      </svg>
     </div>
     <p id="question-text">저랑 데이트 하실래요? 💖</p>
     <div class="plead-text" id="pleadText"></div>
@@ -89,10 +125,14 @@
     </div>
   </div>
 
-  <!-- STEP 2: 日付 & デート場所選び (サンリオ) -->
+  <!-- STEP 2: 日付 & デート場所選び -->
   <div id="step2" class="card hidden">
     <div class="pixel-frame">
-      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNmNzaWh0Z2FqbmZ2ZnZyd3FwOTN2YmhxcWx6cnE5bndnbzBpbnN0eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/kZqbBT64ECtjy/giphy.gif" alt="Sanrio Love">
+      <svg viewBox="0 0 100 100" width="100%" height="100%">
+        <rect width="100" height="100" fill="#fff"/>
+        <path d="M 50 30 C 20 0, 0 40, 50 90 C 100 40, 80 0, 50 30 Z" fill="#ff2a6d"/>
+        <text x="50" y="55" font-size="20" fill="#fff" text-anchor="middle">DATE</text>
+      </svg>
     </div>
     <p>어디서 만날까요? ✨</p>
     <input type="date" id="datePicker"><br>
@@ -106,10 +146,14 @@
     <button class="btn-yes" style="font-size:1.2rem; margin-top:10px; width:100%;" onclick="nextStep(3)">계속하기</button>
   </div>
 
-  <!-- STEP 3: 確定画面 (キティちゃん) -->
+  <!-- STEP 3: 確定画面 -->
   <div id="step3" class="card hidden">
     <div class="pixel-frame">
-      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3h6Z3F1cXZ4NDF6ZnR6YmxzY3F1YnBhZzZydnZ0OHRsc3lndyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/C9x8gX02fJzyw/giphy.gif" alt="Kitty Happy">
+      <svg viewBox="0 0 100 100" width="100%" height="100%">
+        <rect width="100" height="100" fill="#fff"/>
+        <circle cx="50" cy="50" r="40" fill="#ffb6c1"/>
+        <text x="50" y="60" font-size="35" text-anchor="middle">🎉</text>
+      </svg>
     </div>
     <p style="font-size: 1.3rem;">데이트 확정! 🎉</p>
     <div style="background:#fff; border:2px solid #ff2a6d; border-radius:8px; padding:10px; margin-bottom:12px; color:#ff2a6d; text-align:left; font-size:0.95rem;">
@@ -120,7 +164,7 @@
     <button class="btn-yes" style="font-size:1.1rem; width:100%;" onclick="nextStep(4)">새 메시지 1개 ✉️</button>
   </div>
 
-  <!-- STEP 4: ラブレター & ちいかわ大集合 -->
+  <!-- STEP 4: ラブレター & ちいかわ＆アザラシ絵文字スタンプ大集合 -->
   <div id="step4" class="card hidden">
     <div class="window-box">
       <div class="window-header">love_note.txt</div>
@@ -133,14 +177,14 @@
       </div>
     </div>
 
-    <!-- ちいかわ大集合 -->
-    <div class="chiikawa-grid">
-      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMHgyY2szdWdrbHRueHoxbmsxeGpmYmpxa3Axa3AwYWhuaG02OXg1YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Lq0h93752f6J9tijrh/giphy.gif" alt="Chiikawa 1">
-      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3hyZm1uaGFkZjFnOTJiaTlxcXR1Mnp3ajVraTFhMnlhaW9ndHJycCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l0HlU0N8eTj53UoTe/giphy.gif" alt="Chiikawa 2">
-      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMHgyY2szdWdrbHRueHoxbmsxeGpmYmpxa3Axa3AwYWhuaG02OXg1YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Lq0h93752f6J9tijrh/giphy.gif" alt="Chiikawa 3">
-      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3hyZm1uaGFkZjFnOTJiaTlxcXR1Mnp3ajVraTFhMnlhaW9ndHJycCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l0HlU0N8eTj53UoTe/giphy.gif" alt="Chiikawa 4">
-      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMHgyY2szdWdrbHRueHoxbmsxeGpmYmpxa3Axa3AwYWhuaG02OXg1YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Lq0h93752f6J9tijrh/giphy.gif" alt="Chiikawa 5">
-      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3hyZm1uaGFkZjFnOTJiaTlxcXR1Mnp3ajVraTFhMnlhaW9ndHJycCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l0HlU0N8eTj53UoTe/giphy.gif" alt="Chiikawa 6">
+    <!-- 絶対に消えないキュートなスタンプグリッド -->
+    <div class="grid-box">
+      <div>🐱</div>
+      <div>🦭</div>
+      <div>💖</div>
+      <div>🎀</div>
+      <div>🎧</div>
+      <div>💪</div>
     </div>
 
     <!-- スクショ警告 -->
