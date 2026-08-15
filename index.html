@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Valentine Card</title>
+  <link href="https://fonts.googleapis.com/css2?family=DungGeunMo&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; font-family: 'DungGeunMo', monospace; }
+    body {
+      margin: 0; padding: 0; min-height: 100vh;
+      background-color: #ffb6c1;
+      background-image: radial-gradient(#ff69b4 15%, transparent 16%), radial-gradient(#ff69b4 15%, transparent 16%);
+      background-size: 60px 60px; background-position: 0 0, 30px 30px;
+      display: flex; justify-content: center; align-items: center; overflow: hidden;
+    }
+    .card {
+      background: rgba(255, 240, 245, 0.9); border: 4px solid #ff2a6d; border-radius: 20px;
+      padding: 24px; text-align: center; width: 350px; box-shadow: 0 10px 0 #d61c57;
+      position: relative; z-index: 10;
+    }
+    .pixel-frame {
+      border: 6px solid #ff2a6d; border-radius: 16px; background: #fff;
+      padding: 10px; margin-bottom: 16px; box-shadow: inset 0 0 0 2px #ff85a2;
+    }
+    .pixel-frame img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; }
+    p { color: #ff2a6d; font-size: 1.2rem; margin: 12px 0; text-shadow: 1px 1px 0px #fff; }
+    .btn-container { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 15px; }
+    .btn-yes {
+      background: #ff2a6d; color: white; border: 3px solid #fff; padding: 10px 24px;
+      font-size: 1.5rem; border-radius: 12px; cursor: pointer; box-shadow: 0 6px 0 #b3003b;
+      transition: all 0.2s ease; z-index: 999;
+    }
+    .btn-no {
+      background: #888; color: white; border: 3px solid #fff; padding: 10px 20px;
+      font-size: 1.2rem; border-radius: 12px; cursor: pointer; box-shadow: 0 6px 0 #555;
+    }
+    .option-btn {
+      background: #fff; color: #ff2a6d; border: 2px solid #ff2a6d; padding: 8px;
+      margin: 6px 0; border-radius: 8px; width: 100%; cursor: pointer; font-size: 1rem;
+    }
+    .option-btn.selected { background: #ff2a6d; color: #fff; }
+    input[type="date"] { padding: 8px; border: 3px solid #ff2a6d; border-radius: 8px; font-size: 1rem; margin-bottom: 12px; }
+    .hidden { display: none !important; }
+    .window-box { background: #fff; border: 3px solid #ff2a6d; border-radius: 8px; padding: 16px; text-align: left; }
+    .window-header { background: #ff2a6d; color: #fff; padding: 4px 8px; font-size: 0.9rem; margin: -16px -16px 16px -16px; border-radius: 4px 4px 0 0; }
+  </style>
+</head>
+<body>
+
+  <!-- STEP 1: YES大暴走画面 -->
+  <div id="step1" class="card">
+    <div class="pixel-frame">
+      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3h6Z3F1cXZ4NDF6ZnR6YmxzY3F1YnBhZzZydnZ0OHRsc3lndyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/C9x8gX02fJzyw/giphy.gif" alt="Cat Pixel">
+    </div>
+    <p id="question-text">저랑 데이트 하실래요?</p>
+    <div class="btn-container">
+      <button id="yesBtn" class="btn-yes" onclick="nextStep(2)">YES!</button>
+      <button id="noBtn" class="btn-no" onclick="growYes()">NO...</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: 日付 & デート場所選び -->
+  <div id="step2" class="card hidden">
+    <div class="pixel-frame">
+      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNmNzaWh0Z2FqbmZ2ZnZyd3FwOTN2YmhxcWx6cnE5bndnbzBpbnN0eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/kZqbBT64ECtjy/giphy.gif" alt="Hug Pixel">
+    </div>
+    <p>어디서 만날까요? 💖</p>
+    <input type="date" id="datePicker"><br>
+    
+    <button class="option-btn" onclick="selectPlace(this, '맛있는 디너コース 🍽️')">맛있는 디너コース 🍽️</button>
+    <button class="option-btn" onclick="selectPlace(this, '예쁜 카페 巡り ☕')">예쁜 카페 巡리 ☕</button>
+    <button class="option-btn" onclick="selectPlace(this, '영화관 데이트 🍿')">영화관 데이트 🍿</button>
+    
+    <button class="btn-yes" style="font-size:1.2rem; margin-top:12px;" onclick="nextStep(3)">계속하기</button>
+  </div>
+
+  <!-- STEP 3: 確定画面 -->
+  <div id="step3" class="card hidden">
+    <div class="pixel-frame">
+      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNmNzaWh0Z2FqbmZ2ZnZyd3FwOTN2YmhxcWx6cnE5bndnbzBpbnN0eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/kZqbBT64ECtjy/giphy.gif" alt="Happy Pixel">
+    </div>
+    <p style="font-size: 1.4rem;">데이트 확정! 🎉</p>
+    <div style="background:#fff; border:2px solid #ff2a6d; border-radius:8px; padding:10px; margin-bottom:12px; color:#ff2a6d; text-align:left;">
+      <div>📅 날짜: <span id="selectedDate"></span></div>
+      <div>📍 코스: <span id="selectedPlace">맛있는 디너コース 🍽️</span></div>
+    </div>
+    <button class="btn-yes" style="font-size:1.1rem;" onclick="nextStep(4)">새 메시지 1개 ✉️</button>
+  </div>
+
+  <!-- STEP 4: ラブレター -->
+  <div id="step4" class="card hidden">
+    <div class="window-box">
+      <div class="window-header">love_note.txt</div>
+      <div style="color:#333; line-height:1.6;">
+어떤 모습이어도 정말 예뻐요.
+다른 사람 말은 신경 쓰지 말아요, 알겠죠?
+
+당신 덕분에 평범한 하루도 특별해져요.
+오늘도, 앞으로도, 우리를 응원해요.
+
+xoxo ❤️
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let yesScale = 1;
+    let selectedCourse = "맛있는 디너コース 🍽️";
+
+    function growYes() {
+      yesScale += 0.5;
+      const yesBtn = document.getElementById('yesBtn');
+      yesBtn.style.transform = `scale(${yesScale})`;
+      if (yesScale > 3) {
+        document.getElementById('noBtn').style.display = 'none';
+      }
+    }
+
+    function selectPlace(btn, place) {
+      document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedCourse = place;
+    }
+
+    function nextStep(step) {
+      document.querySelectorAll('.card').forEach(el => el.classList.add('hidden'));
+      document.getElementById('step' + step).classList.remove('hidden');
+      
+      if(step === 3) {
+        const val = document.getElementById('datePicker').value;
+        document.getElementById('selectedDate').innerText = val || "2026-08-15";
+        document.getElementById('selectedPlace').innerText = selectedCourse;
+      }
+    }
+  </script>
+</body>
+</html>
