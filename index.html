@@ -24,7 +24,7 @@
       padding: 8px; margin-bottom: 12px; box-shadow: inset 0 0 0 2px #ff85a2;
       display: flex; justify-content: center; align-items: center; min-height: 160px; overflow: hidden;
     }
-    .pixel-frame svg { width: 100%; height: 160px; }
+    .pixel-frame img, .pixel-frame svg { width: 100%; height: 160px; object-fit: contain; border-radius: 8px; }
     p { color: #ff2a6d; font-size: 1.1rem; margin: 10px 0; text-shadow: 1px 1px 0px #fff; line-height: 1.4; }
     .btn-container { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; position: relative; }
     .btn-row { display: flex; justify-content: center; align-items: center; gap: 15px; width: 100%; }
@@ -66,28 +66,10 @@
 </head>
 <body>
 
-  <!-- STEP 0: HP 診断 -->
+  <!-- STEP 0: HP 診断 (元の可愛いキティちゃん) -->
   <div id="step0" class="card">
     <div class="pixel-frame">
-      <svg viewBox="0 0 100 100" width="100%" height="100%">
-        <rect width="100" height="100" fill="#fff"/>
-        <polygon points="15,45 5,15 35,30" fill="#2b2b2b"/>
-        <polygon points="85,45 95,15 65,30" fill="#2b2b2b"/>
-        <circle cx="5" cy="15" r="4" fill="#ff69b4"/>
-        <circle cx="95" cy="15" r="4" fill="#ff69b4"/>
-        <path d="M 15 50 Q 50 15 85 50 C 85 75 15 75 15 50 Z" fill="#2b2b2b"/>
-        <ellipse cx="50" cy="30" rx="6" ry="5" fill="#ff69b4"/>
-        <circle cx="47" cy="30" r="1.5" fill="#2b2b2b"/>
-        <circle cx="53" cy="30" r="1.5" fill="#2b2b2b"/>
-        <ellipse cx="50" cy="58" rx="24" ry="18" fill="#fff0f5"/>
-        <ellipse cx="38" cy="55" rx="3.5" ry="5" fill="#2b2b2b"/>
-        <ellipse cx="62" cy="55" rx="3.5" ry="5" fill="#2b2b2b"/>
-        <circle cx="40" cy="53" r="1.5" fill="#fff"/>
-        <circle cx="64" cy="53" r="1.5" fill="#fff"/>
-        <path d="M 44 63 Q 50 67 56 63" stroke="#ff2a6d" stroke-width="2" fill="none"/>
-        <circle cx="30" cy="60" r="4" fill="#ffb6c1" opacity="0.8"/>
-        <circle cx="70" cy="60" r="4" fill="#ffb6c1" opacity="0.8"/>
-      </svg>
+      <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Cat%20with%20Tears%20of%20Joy.png" alt="Cute Cat">
     </div>
     <p>⚡ 오늘 동구리의 체력(HP) 상태는?</p>
     <button class="option-btn" onclick="selectHp(this, '100% (에너지 폭발! ⚡)')">🟩 100% (에너지 폭발! ⚡)</button>
@@ -96,26 +78,10 @@
     <button class="btn-yes" style="font-size:1.1rem; margin-top:10px; width:100%;" onclick="startQuestion()">진단 완료 & 다음으로!</button>
   </div>
 
-  <!-- STEP 1: YES大暴走 -->
+  <!-- STEP 1: YES大暴走 (元の可愛いキティちゃん) -->
   <div id="step1" class="card hidden">
     <div class="pixel-frame">
-      <svg viewBox="0 0 100 100" width="100%" height="100%">
-        <rect width="100" height="100" fill="#fff"/>
-        <polygon points="18,35 25,12 42,28" fill="#fff" stroke="#ff2a6d" stroke-width="3"/>
-        <polygon points="82,35 75,12 58,28" fill="#fff" stroke="#ff2a6d" stroke-width="3"/>
-        <ellipse cx="50" cy="52" rx="36" ry="27" fill="#fff" stroke="#ff2a6d" stroke-width="3"/>
-        <circle cx="72" cy="27" r="7" fill="#ff2a6d"/>
-        <circle cx="61" cy="24" r="6" fill="#ff2a6d"/>
-        <circle cx="83" cy="30" r="6" fill="#ff2a6d"/>
-        <circle cx="72" cy="27" r="3" fill="#fff"/>
-        <ellipse cx="36" cy="52" rx="3.5" ry="5" fill="#333"/>
-        <ellipse cx="64" cy="52" rx="3.5" ry="5" fill="#333"/>
-        <ellipse cx="50" cy="58" rx="4" ry="3" fill="#ffcc00"/>
-        <line x1="12" y1="48" x2="26" y2="50" stroke="#333" stroke-width="2"/>
-        <line x1="12" y1="57" x2="26" y2="57" stroke="#333" stroke-width="2"/>
-        <line x1="74" y1="50" x2="88" y2="48" stroke="#333" stroke-width="2"/>
-        <line x1="74" y1="57" x2="88" y2="57" stroke="#333" stroke-width="2"/>
-      </svg>
+      <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Cat%20with%20Tears%20of%20Joy.png" alt="Cute Cat">
     </div>
     <p id="question-text">동구리, 저랑 데이트 하실래요? 💖</p>
     <div class="plead-text" id="pleadText"></div>
@@ -130,11 +96,7 @@
   <!-- STEP 2: 日付 & デート場所選び -->
   <div id="step2" class="card hidden">
     <div class="pixel-frame">
-      <svg viewBox="0 0 100 100" width="100%" height="100%">
-        <rect width="100" height="100" fill="#fff"/>
-        <path d="M 50 30 C 20 0, 0 40, 50 90 C 100 40, 80 0, 50 30 Z" fill="#ff2a6d"/>
-        <text x="50" y="55" font-size="20" font-weight="bold" fill="#fff" text-anchor="middle">DATE</text>
-      </svg>
+      <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Smiling%20Face%20with%20Heart-Eyes.png" alt="Love Emoji">
     </div>
     <p>어디서 만날까요? ✨</p>
     <input type="date" id="datePicker"><br>
@@ -151,11 +113,7 @@
   <!-- STEP 3: 確定画面 -->
   <div id="step3" class="card hidden">
     <div class="pixel-frame">
-      <svg viewBox="0 0 100 100" width="100%" height="100%">
-        <rect width="100" height="100" fill="#fff"/>
-        <circle cx="50" cy="50" r="40" fill="#ffb6c1"/>
-        <text x="50" y="62" font-size="38" text-anchor="middle">🎉</text>
-      </svg>
+      <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Kissing%20Cat.png" alt="Kiss Cat">
     </div>
     <p style="font-size: 1.3rem;">데이트 확정! 🎉</p>
     <div style="background:#fff; border:2px solid #ff2a6d; border-radius:8px; padding:10px; margin-bottom:12px; color:#ff2a6d; text-align:left; font-size:0.95rem;">
@@ -166,7 +124,7 @@
     <button class="btn-yes" style="font-size:1.1rem; width:100%;" onclick="nextStep(4)">새 메시지 1개 ✉️</button>
   </div>
 
-  <!-- STEP 4: ラブレター (우리 자기 削除・すっきり自然版) -->
+  <!-- STEP 4: ラブレター -->
   <div id="step4" class="card hidden">
     <div class="window-box">
       <div class="window-header">love_note.txt</div>
