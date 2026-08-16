@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Catch Me!</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #e0f2fe;
+      overflow: hidden;
+      touch-action: none;
+      font-family: sans-serif;
+    }
+    #score-board {
+      position: absolute;
+      top: 20px;
+      width: 100%;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      color: #334155;
+    }
+    #basket {
+      position: absolute;
+      bottom: 30px;
+      width: 80px;
+      height: 60px;
+      font-size: 50px;
+      text-align: center;
+      line-height: 60px;
+      transform: translateX(-50%);
+      cursor: pointer;
+    }
+    .falling-item {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      transform: translateX(-50%);
+    }
+  </style>
+</head>
+<body>
+
+<div id="score-board">Catches: <span id="score">0</span> / 15</div>
+<div id="basket">🧺</div>
+
+<script>
+  let score = 0;
+  const targetScore = 15;
+  const basket = document.getElementById('basket');
+  let basketX = window.innerWidth / 2;
+  
+  // カゴの初期位置
+  basket.style.left = basketX + 'px';
+
+  // タッチ・マウス操作でカゴを動かす
+  function moveBasket(x) {
+    basketX = Math.max(40, Math.min(window.innerWidth - 40, x));
+    basket.style.left = basketX + 'px';
+  }
+
+  window.addEventListener('mousemove', (e) => moveBasket(e.clientX));
+  window.addEventListener('touchmove', (e) => moveBasket(e.touches[0].clientX));
+
+  // アイテムを降らせる
+  function createItem() {
+    if (score >= targetScore) return;
+
+    const item = document.createElement('img');
+    item.src = 'face.png'; // 彼氏の画像ファイル名
+    item.className = 'falling-item';
+    
+    let itemX = Math.random() * (window.innerWidth - 60) + 30;
+    let itemY = -60;
+    const speed = 3 + Math.random() * 3;
+
+    item.style.left = itemX + 'px';
+    item.style.top = itemY + 'px';
+    document.body.appendChild(item);
+
+    const fallInterval = setInterval(() => {
+      itemY += speed;
+      item.style.top = itemY + 'px';
+
+      // キャッチ判定
+      const basketRect = basket.getBoundingClientRect();
+      if (
+        itemY >= basketRect.top - 30 &&
+        itemY <= basketRect.bottom &&
+        Math.abs(itemX - basketX) < 40
+      ) {
+        score++;
+        document.getElementById('score').innerText = score;
+        clearInterval(fallInterval);
+        item.remove();
+        
+        if (score === targetScore) {
+          alert('Happy Anniversary! 🎉❤');
+        }
+      }
+
+      // 画面下に消えた場合
+      if (itemY > window.innerHeight) {
+        clearInterval(fallInterval);
+        item.remove();
+      }
+    }, 1000 / 60);
+  }
+
+  // 1秒ごとに新しいアイテムを生成
+  setInterval(createItem, 1000);
+</script>
+</body>
+</html>
