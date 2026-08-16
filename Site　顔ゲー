@@ -11,16 +11,17 @@
       background-color: #e0f2fe;
       overflow: hidden;
       touch-action: none;
-      font-family: sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
     #score-board {
       position: absolute;
-      top: 20px;
+      top: 25px;
       width: 100%;
       text-align: center;
-      font-size: 20px;
+      font-size: 22px;
       font-weight: bold;
       color: #334155;
+      z-index: 10;
     }
     #basket {
       position: absolute;
@@ -32,14 +33,18 @@
       line-height: 60px;
       transform: translateX(-50%);
       cursor: pointer;
+      user-select: none;
+      z-index: 10;
     }
     .falling-item {
       position: absolute;
-      width: 60px;
-      height: 60px;
+      width: 65px;
+      height: 65px;
       border-radius: 50%;
       object-fit: cover;
       transform: translateX(-50%);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      border: 2px solid white;
     }
   </style>
 </head>
@@ -71,11 +76,11 @@
     if (score >= targetScore) return;
 
     const item = document.createElement('img');
-    item.src = 'face.png'; // 彼氏の画像ファイル名
+    item.src = 'S__16064520.jpg'; // アップロードした写真のファイル名
     item.className = 'falling-item';
     
-    let itemX = Math.random() * (window.innerWidth - 60) + 30;
-    let itemY = -60;
+    let itemX = Math.random() * (window.innerWidth - 80) + 40;
+    let itemY = -70;
     const speed = 3 + Math.random() * 3;
 
     item.style.left = itemX + 'px';
@@ -89,9 +94,9 @@
       // キャッチ判定
       const basketRect = basket.getBoundingClientRect();
       if (
-        itemY >= basketRect.top - 30 &&
+        itemY >= basketRect.top - 40 &&
         itemY <= basketRect.bottom &&
-        Math.abs(itemX - basketX) < 40
+        Math.abs(itemX - basketX) < 45
       ) {
         score++;
         document.getElementById('score').innerText = score;
@@ -99,12 +104,14 @@
         item.remove();
         
         if (score === targetScore) {
-          alert('Happy Anniversary! 🎉❤');
+          setTimeout(() => {
+            alert('Happy Anniversary! 🎉❤');
+          }, 100);
         }
       }
 
       // 画面下に消えた場合
-      if (itemY > window.innerHeight) {
+      if (itemY > window.innerHeight + 70) {
         clearInterval(fallInterval);
         item.remove();
       }
