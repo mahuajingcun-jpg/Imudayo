@@ -1,125 +1,138 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Catch Me!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Valentine Card for Dongguri</title>
+  <link href="https://fonts.googleapis.com/css2?family=DungGeunMo&display=swap" rel="stylesheet">
   <style>
+    * { box-sizing: border-box; font-family: 'DungGeunMo', monospace; }
     body {
-      margin: 0;
-      padding: 0;
-      background-color: #e0f2fe;
-      overflow: hidden;
-      touch-action: none;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      margin: 0; padding: 0; min-height: 100vh;
+      background-color: #ffb6c1;
+      background-image: radial-gradient(#ff69b4 15%, transparent 16%), radial-gradient(#ff69b4 15%, transparent 16%);
+      background-size: 60px 60px; background-position: 0 0, 30px 30px;
+      display: flex; justify-content: center; align-items: center; overflow: hidden;
     }
-    #score-board {
-      position: absolute;
-      top: 25px;
-      width: 100%;
-      text-align: center;
-      font-size: 22px;
-      font-weight: bold;
-      color: #334155;
-      z-index: 10;
+    .card {
+      background: rgba(255, 240, 245, 0.95); border: 4px solid #ff2a6d; border-radius: 20px;
+      padding: 24px; text-align: center; width: 350px; box-shadow: 0 10px 0 #d61c57;
+      position: relative; z-index: 10;
     }
-    #basket {
-      position: absolute;
-      bottom: 30px;
-      width: 80px;
-      height: 60px;
-      font-size: 50px;
-      text-align: center;
-      line-height: 60px;
-      transform: translateX(-50%);
-      cursor: pointer;
-      user-select: none;
-      z-index: 10;
+    .pixel-frame {
+      border: 6px solid #ff2a6d; border-radius: 16px; background: #fff;
+      padding: 10px; margin-bottom: 16px; box-shadow: inset 0 0 0 2px #ff85a2;
+      display: flex; justify-content: center; align-items: center;
     }
-    .falling-item {
-      position: absolute;
-      width: 65px;
-      height: 65px;
-      border-radius: 50%;
-      object-fit: cover;
-      transform: translateX(-50%);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-      border: 2px solid white;
+    .pixel-frame img { width: 100%; height: 180px; object-fit: contain; border-radius: 8px; }
+    p { color: #ff2a6d; font-size: 1.2rem; margin: 12px 0; text-shadow: 1px 1px 0px #fff; }
+    .btn-container { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 15px; }
+    .btn-yes {
+      background: #ff2a6d; color: white; border: 3px solid #fff; padding: 10px 24px;
+      font-size: 1.5rem; border-radius: 12px; cursor: pointer; box-shadow: 0 6px 0 #b3003b;
+      transition: all 0.2s ease; z-index: 999;
     }
+    .btn-no {
+      background: #888; color: white; border: 3px solid #fff; padding: 10px 20px;
+      font-size: 1.2rem; border-radius: 12px; cursor: pointer; box-shadow: 0 6px 0 #555;
+    }
+    .option-btn {
+      background: #fff; color: #ff2a6d; border: 2px solid #ff2a6d; padding: 10px;
+      margin: 6px 0; border-radius: 8px; width: 100%; cursor: pointer; font-size: 1rem;
+    }
+    .option-btn.selected { background: #ff2a6d; color: #fff; }
+    input[type="date"] { padding: 8px; border: 3px solid #ff2a6d; border-radius: 8px; font-size: 1rem; margin-bottom: 12px; }
+    .hidden { display: none !important; }
+    .window-box { background: #fff; border: 3px solid #ff2a6d; border-radius: 8px; padding: 16px; text-align: left; }
+    .window-header { background: #ff2a6d; color: #fff; padding: 4px 8px; font-size: 0.9rem; margin: -16px -16px 16px -16px; border-radius: 4px 4px 0 0; }
   </style>
 </head>
 <body>
 
-<div id="score-board">Catches: <span id="score">0</span> / 15</div>
-<div id="basket">🧺</div>
+  <!-- STEP 1: YES大暴走画面 -->
+  <div id="step1" class="card">
+    <div class="pixel-frame">
+      <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Cat%20with%20Tears%20of%20Joy.png" alt="Cute Kitty">
+    </div>
+    <p id="question-text">동구리, 저랑 데이트 하실래요? 💖</p>
+    <div class="btn-container">
+      <button id="yesBtn" class="btn-yes" onclick="nextStep(2)">YES!</button>
+      <button id="noBtn" class="btn-no" onclick="growYes()">NO...</button>
+    </div>
+  </div>
 
-<script>
-  let score = 0;
-  const targetScore = 15;
-  const basket = document.getElementById('basket');
-  let basketX = window.innerWidth / 2;
-  
-  // カゴの初期位置
-  basket.style.left = basketX + 'px';
-
-  // タッチ・マウス操作でカゴを動かす
-  function moveBasket(x) {
-    basketX = Math.max(40, Math.min(window.innerWidth - 40, x));
-    basket.style.left = basketX + 'px';
-  }
-
-  window.addEventListener('mousemove', (e) => moveBasket(e.clientX));
-  window.addEventListener('touchmove', (e) => moveBasket(e.touches[0].clientX));
-
-  // アイテムを降らせる
-  function createItem() {
-    if (score >= targetScore) return;
-
-    const item = document.createElement('img');
-    item.src = 'S__16064520.jpg'; // アップロードした写真のファイル名
-    item.className = 'falling-item';
+  <!-- STEP 2: 日付 & デート場所選び -->
+  <div id="step2" class="card hidden">
+    <div class="pixel-frame">
+      <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Cat%20with%20Tears%20of%20Joy.png" alt="Cute Kitty">
+    </div>
+    <p>어디서 만날까요? 💖</p>
+    <input type="date" id="datePicker"><br>
     
-    let itemX = Math.random() * (window.innerWidth - 80) + 40;
-    let itemY = -70;
-    const speed = 3 + Math.random() * 3;
+    <button class="option-btn" onclick="selectPlace(this, '맛있는 디너 코스 🍽️')">맛있는 디너 코스 🍽️</button>
+    <button class="option-btn" onclick="selectPlace(this, '예쁜 카페 투어 ☕')">예쁜 카페 투어 ☕</button>
+    <button class="option-btn" onclick="selectPlace(this, '영화관 데이트 🍿')">영화관 데이트 🍿</button>
+    
+    <button class="btn-yes" style="font-size:1.2rem; margin-top:12px;" onclick="nextStep(3)">계속하기</button>
+  </div>
 
-    item.style.left = itemX + 'px';
-    item.style.top = itemY + 'px';
-    document.body.appendChild(item);
+  <!-- STEP 3: 確定画面 -->
+  <div id="step3" class="card hidden">
+    <div class="pixel-frame">
+      <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Cat%20with%20Tears%20of%20Joy.png" alt="Cute Kitty">
+    </div>
+    <p style="font-size: 1.4rem;">데이트 확정! 🎉</p>
+    <div style="background:#fff; border:2px solid #ff2a6d; border-radius:8px; padding:10px; margin-bottom:12px; color:#ff2a6d; text-align:left;">
+      <div>📅 날짜: <span id="selectedDate"></span></div>
+      <div>📍 코스: <span id="selectedPlace">맛있는 디너 코스 🍽️</span></div>
+    </div>
+    <button class="btn-yes" style="font-size:1.1rem;" onclick="nextStep(4)">새 메시지 1개 ✉️</button>
+  </div>
 
-    const fallInterval = setInterval(() => {
-      itemY += speed;
-      item.style.top = itemY + 'px';
+  <!-- STEP 4: ラブレター -->
+  <div id="step4" class="card hidden">
+    <div class="window-box">
+      <div class="window-header">love_note.txt</div>
+      <div style="color:#333; line-height:1.6;">
+동구리, 💖<br>
+매일 일도 열심히 하고 DJ도 하고 운동까지 열심히 하는 거 보면 정말 대단하고 멋있어.<br><br>
+너무 든든하고 항상 고마워요.<br>
+너무 무리하지 말고, 맛있는 거 먹고 데이트하자!<br><br>
+오늘도 너무 고생 많았어. 사랑해❤️<br><br>
+<div style="text-align: right; font-weight: bold; color: #ff2a6d;">- あさかより -</div>
+      </div>
+    </div>
+  </div>
 
-      // キャッチ判定
-      const basketRect = basket.getBoundingClientRect();
-      if (
-        itemY >= basketRect.top - 40 &&
-        itemY <= basketRect.bottom &&
-        Math.abs(itemX - basketX) < 45
-      ) {
-        score++;
-        document.getElementById('score').innerText = score;
-        clearInterval(fallInterval);
-        item.remove();
-        
-        if (score === targetScore) {
-          setTimeout(() => {
-            alert('Happy Anniversary! 🎉❤');
-          }, 100);
-        }
+  <script>
+    let yesScale = 1;
+    let selectedCourse = "맛있는 디너 코스 🍽️";
+
+    function growYes() {
+      yesScale += 0.5;
+      const yesBtn = document.getElementById('yesBtn');
+      yesBtn.style.transform = `scale(${yesScale})`;
+      if (yesScale > 3) {
+        document.getElementById('noBtn').style.display = 'none';
       }
+    }
 
-      // 画面下に消えた場合
-      if (itemY > window.innerHeight + 70) {
-        clearInterval(fallInterval);
-        item.remove();
+    function selectPlace(btn, place) {
+      document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedCourse = place;
+    }
+
+    function nextStep(step) {
+      document.querySelectorAll('.card').forEach(el => el.classList.add('hidden'));
+      document.getElementById('step' + step).classList.remove('hidden');
+      
+      if(step === 3) {
+        const val = document.getElementById('datePicker').value;
+        document.getElementById('selectedDate').innerText = val || "2026-08-15";
+        document.getElementById('selectedPlace').innerText = selectedCourse;
       }
-    }, 1000 / 60);
-  }
-
-  // 1秒ごとに新しいアイテムを生成
-  setInterval(createItem, 1000);
-</script>
+    }
+  </script>
 </body>
 </html>
