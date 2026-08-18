@@ -8,92 +8,124 @@
   <style>
     * { box-sizing: border-box; font-family: 'DungGeunMo', monospace; }
     body {
-      margin: 0; padding: 0; min-height: 100vh;
+      margin: 0; padding: 10px; min-height: 100vh;
       background-color: #ffb6c1;
       background-image: radial-gradient(#ff69b4 15%, transparent 16%), radial-gradient(#ff69b4 15%, transparent 16%);
       background-size: 60px 60px; background-position: 0 0, 30px 30px;
-      display: flex; justify-content: center; align-items: center; overflow: hidden;
+      display: flex; justify-content: center; align-items: center; overflow-x: hidden;
     }
     .card {
       background: rgba(255, 240, 245, 0.95); border: 4px solid #ff2a6d; border-radius: 20px;
-      padding: 24px; text-align: center; width: 350px; box-shadow: 0 10px 0 #d61c57;
-      position: relative; z-index: 10;
+      padding: 20px; text-align: center; width: 100%; max-width: 360px; box-shadow: 0 10px 0 #d61c57;
+      position: relative; z-index: 10; margin: auto;
     }
     .pixel-frame {
-      border: 6px solid #ff2a6d; border-radius: 16px; background: #fff;
-      padding: 10px; margin-bottom: 16px; box-shadow: inset 0 0 0 2px #ff85a2;
-      display: flex; justify-content: center; align-items: center;
+      border: 5px solid #ff2a6d; border-radius: 16px; background: #fff;
+      padding: 8px; margin-bottom: 12px; box-shadow: inset 0 0 0 2px #ff85a2;
+      display: flex; justify-content: center; align-items: center; min-height: 160px; overflow: hidden;
     }
-    .pixel-frame img { width: 100%; height: 180px; object-fit: contain; border-radius: 8px; }
-    p { color: #ff2a6d; font-size: 1.2rem; margin: 12px 0; text-shadow: 1px 1px 0px #fff; }
-    .btn-container { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 15px; }
+    .pixel-frame img { width: 100%; height: 160px; object-fit: contain; border-radius: 8px; }
+    .pixel-frame-emoji { font-size: 5rem; }
+    p { color: #ff2a6d; font-size: 1.1rem; margin: 10px 0; text-shadow: 1px 1px 0px #fff; line-height: 1.4; }
+    .btn-container { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; position: relative; }
+    .btn-row { display: flex; justify-content: center; align-items: center; gap: 15px; width: 100%; }
     .btn-yes {
       background: #ff2a6d; color: white; border: 3px solid #fff; padding: 10px 24px;
       font-size: 1.5rem; border-radius: 12px; cursor: pointer; box-shadow: 0 6px 0 #b3003b;
       transition: all 0.2s ease; z-index: 999;
     }
     .btn-no {
-      background: #888; color: white; border: 3px solid #fff; padding: 10px 20px;
-      font-size: 1.2rem; border-radius: 12px; cursor: pointer; box-shadow: 0 6px 0 #555;
+      background: #888; color: white; border: 3px solid #fff; padding: 8px 16px;
+      font-size: 1rem; border-radius: 12px; cursor: pointer; box-shadow: 0 6px 0 #555;
     }
+    .plead-text { color: #d61c57; font-size: 0.95rem; font-weight: bold; min-height: 24px; margin-bottom: 5px; }
     .option-btn {
-      background: #fff; color: #ff2a6d; border: 2px solid #ff2a6d; padding: 10px;
-      margin: 6px 0; border-radius: 8px; width: 100%; cursor: pointer; font-size: 1rem;
+      background: #fff; color: #ff2a6d; border: 2px solid #ff2a6d; padding: 8px;
+      margin: 5px 0; border-radius: 8px; width: 100%; cursor: pointer; font-size: 0.95rem; text-align: left;
     }
-    .option-btn.selected { background: #ff2a6d; color: #fff; }
-    input[type="date"] { padding: 8px; border: 3px solid #ff2a6d; border-radius: 8px; font-size: 1rem; margin-bottom: 12px; }
+    .option-btn.selected { background: #ff2a6d; color: #fff; font-weight: bold; }
+    input[type="date"] { padding: 8px; border: 3px solid #ff2a6d; border-radius: 8px; font-size: 1rem; margin-bottom: 8px; width: 100%; text-align: center; }
     .hidden { display: none !important; }
-    .window-box { background: #fff; border: 3px solid #ff2a6d; border-radius: 8px; padding: 16px; text-align: left; }
-    .window-header { background: #ff2a6d; color: #fff; padding: 4px 8px; font-size: 0.9rem; margin: -16px -16px 16px -16px; border-radius: 4px 4px 0 0; }
+    .window-box { background: #fff; border: 3px solid #ff2a6d; border-radius: 8px; padding: 14px; text-align: left; }
+    .window-header { background: #ff2a6d; color: #fff; padding: 4px 8px; font-size: 0.9rem; margin: -14px -14px 12px -14px; border-radius: 4px 4px 0 0; }
+    
+    .grid-box {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; padding: 8px;
+      background: #ffe6ed; border-radius: 12px; border: 2px dashed #ff2a6d;
+    }
+    .grid-box div {
+      background: #fff; border-radius: 8px; height: 75px; display: flex;
+      justify-content: center; align-items: center; font-size: 2.2rem; border: 2px solid #ff85a2;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .warning-box {
+      background: #fff0f5; border: 2px dashed #ff2a6d; padding: 10px; border-radius: 8px;
+      margin-top: 12px; color: #d61c57; font-size: 0.9rem; font-weight: bold;
+    }
   </style>
 </head>
 <body>
 
-  <!-- STEP 1: YES大暴走画面 -->
-  <div id="step1" class="card">
+  <!-- STEP 0: HP 診断 (さっきのキティちゃん) -->
+  <div id="step0" class="card">
     <div class="pixel-frame">
-      <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Cat%20with%20Tears%20of%20Joy.png" alt="Cute Kitty">
+      <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Cat%20with%20Tears%20of%20Joy.png" alt="Cute Cat">
+    </div>
+    <p>⚡ 오늘 동구리의 체력(HP) 상태는?</p>
+    <button class="option-btn" onclick="selectHp(this, '100% (에너지 폭발! ⚡)')">🟩 100% (에너지 폭발! ⚡)</button>
+    <button class="option-btn" onclick="selectHp(this, '50% (일&운동해서 약간 피곤 🫠)')">🟨 50% (일&운동해서 약간 피곤 🫠)</button>
+    <button class="option-btn" onclick="selectHp(this, '10% (당장 맛있는 거 먹고 쉬고 싶음 🛌)')">🟥 10% (당장 맛있는 거 먹고 쉬고 싶음 🛌)</button>
+    <button class="btn-yes" style="font-size:1.1rem; margin-top:10px; width:100%;" onclick="startQuestion()">진단 완료 & 다음으로!</button>
+  </div>
+
+  <!-- STEP 1: YES大暴走 (さっきのキティちゃん) -->
+  <div id="step1" class="card hidden">
+    <div class="pixel-frame">
+      <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Cat%20with%20Tears%20of%20Joy.png" alt="Cute Cat">
     </div>
     <p id="question-text">동구리, 저랑 데이트 하실래요? 💖</p>
+    <div class="plead-text" id="pleadText"></div>
     <div class="btn-container">
-      <button id="yesBtn" class="btn-yes" onclick="nextStep(2)">YES!</button>
-      <button id="noBtn" class="btn-no" onclick="growYes()">NO...</button>
+      <div class="btn-row">
+        <button id="yesBtn" class="btn-yes" onclick="nextStep(2)">YES!</button>
+        <button id="noBtn" class="btn-no" onclick="growYes()">NO...</button>
+      </div>
     </div>
   </div>
 
   <!-- STEP 2: 日付 & デート場所選び -->
   <div id="step2" class="card hidden">
-    <div class="pixel-frame">
-      <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Cat%20with%20Tears%20of%20Joy.png" alt="Cute Kitty">
-    </div>
-    <p>어디서 만날까요? 💖</p>
+    <div class="pixel-frame pixel-frame-emoji">💌</div>
+    <p>어디서 만날까요? ✨</p>
     <input type="date" id="datePicker"><br>
     
-    <button class="option-btn" onclick="selectPlace(this, '맛있는 디너 코스 🍽️')">맛있는 디너 코스 🍽️</button>
-    <button class="option-btn" onclick="selectPlace(this, '예쁜 카페 투어 ☕')">예쁜 카페 투어 ☕</button>
-    <button class="option-btn" onclick="selectPlace(this, '영화관 데이트 🍿')">영화관 데이트 🍿</button>
+    <button class="option-btn" onclick="selectPlace(this, '맛있는 디너 코스 🍽️')">🍽️ 맛있는 디너 코스</button>
+    <button class="option-btn" onclick="selectPlace(this, '예쁜 카페 투어 ☕')">☕ 예쁜 카페 투어</button>
+    <button class="option-btn" onclick="selectPlace(this, '영화관 데이트 🍿')">🍿 영화관 데이트</button>
+    <button class="option-btn" onclick="selectPlace(this, '동구리랑 함께 지옥의 헬스 데이트 💪')">💪 동구리랑 함께 지옥의 헬스 데이트</button>
+    <button class="option-btn" onclick="selectPlace(this, '동구리 DJ 옆에서 폭풍 응원 데이트 🎧')">🎧 동구리 DJ 옆에서 폭풍 응원 데이트</button>
     
-    <button class="btn-yes" style="font-size:1.2rem; margin-top:12px;" onclick="nextStep(3)">계속하기</button>
+    <button class="btn-yes" style="font-size:1.2rem; margin-top:10px; width:100%;" onclick="nextStep(3)">계속하기</button>
   </div>
 
   <!-- STEP 3: 確定画面 -->
   <div id="step3" class="card hidden">
-    <div class="pixel-frame">
-      <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Cat%20with%20Tears%20of%20Joy.png" alt="Cute Kitty">
-    </div>
-    <p style="font-size: 1.4rem;">데이트 확정! 🎉</p>
-    <div style="background:#fff; border:2px solid #ff2a6d; border-radius:8px; padding:10px; margin-bottom:12px; color:#ff2a6d; text-align:left;">
+    <div class="pixel-frame pixel-frame-emoji">😽🎉</div>
+    <p style="font-size: 1.3rem;">데이트 확정! 🎉</p>
+    <div style="background:#fff; border:2px solid #ff2a6d; border-radius:8px; padding:10px; margin-bottom:12px; color:#ff2a6d; text-align:left; font-size:0.95rem;">
+      <div>⚡ 체력: <span id="selectedHp">100%</span></div>
       <div>📅 날짜: <span id="selectedDate"></span></div>
       <div>📍 코스: <span id="selectedPlace">맛있는 디너 코스 🍽️</span></div>
     </div>
-    <button class="btn-yes" style="font-size:1.1rem;" onclick="nextStep(4)">새 메시지 1개 ✉️</button>
+    <button class="btn-yes" style="font-size:1.1rem; width:100%;" onclick="nextStep(4)">새 메시지 1개 ✉️</button>
   </div>
 
-  <!-- STEP 4: ラブレター -->
+  <!-- STEP 4: ラブレター (あさかより) -->
   <div id="step4" class="card hidden">
     <div class="window-box">
       <div class="window-header">love_note.txt</div>
-      <div style="color:#333; line-height:1.6;">
+      <div style="color:#333; line-height:1.6; font-size:0.95rem;">
 동구리, 💖<br>
 매일 일도 열심히 하고 DJ도 하고 운동까지 열심히 하는 거 보면 정말 대단하고 멋있어.<br><br>
 너무 든든하고 항상 고마워요.<br>
@@ -102,33 +134,127 @@
 <div style="text-align: right; font-weight: bold; color: #ff2a6d;">- あさかより -</div>
       </div>
     </div>
+
+    <div class="grid-box">
+      <div>🐱</div>
+      <div>🦭</div>
+      <div>💖</div>
+      <div>🎀</div>
+      <div>🎧</div>
+      <div>💪</div>
+    </div>
+
+    <div class="warning-box">
+      ⚠️ [중요] 이 화면을 캡처해서 지금 바로 여자친구에게 전송하세요! 📸❤️
+    </div>
   </div>
 
   <script>
     let yesScale = 1;
+    let selectedHpVal = "100% (에너지 폭발! ⚡)";
     let selectedCourse = "맛있는 디너 코스 🍽️";
+    let noCount = 0;
+
+    const noTexts = [
+      "NO...",
+      "에... 진짜로? 😭",
+      "거짓말이지? 다시 생각해봐! 🥺",
+      "DJ 해서 피곤한 건 알지만!! 🎧",
+      "근육 때문에 YES 버튼 안 보이는 거지?! 💪"
+    ];
+
+    function playSound(type) {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        if (type === 'click') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(600, ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.1);
+          gain.gain.setValueAtTime(0.3, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.1);
+        } else if (type === 'grow') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(300, ctx.currentTime);
+          osc.frequency.linearRampToValueAtTime(150, ctx.currentTime + 0.2);
+          gain.gain.setValueAtTime(0.4, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.2);
+        } else if (type === 'win') {
+          const now = ctx.currentTime;
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(523.25, now);
+          osc.frequency.setValueAtTime(659.25, now + 0.1);
+          osc.frequency.setValueAtTime(783.99, now + 0.2);
+          osc.frequency.setValueAtTime(1046.50, now + 0.3);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+          osc.start();
+          osc.stop(now + 0.5);
+        }
+      } catch(e) {}
+    }
+
+    function selectHp(btn, hp) {
+      playSound('click');
+      document.querySelectorAll('#step0 .option-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedHpVal = hp;
+    }
+
+    function startQuestion() {
+      playSound('click');
+      nextStep(1);
+    }
 
     function growYes() {
-      yesScale += 0.5;
+      playSound('grow');
+      noCount++;
+      yesScale += 0.4;
       const yesBtn = document.getElementById('yesBtn');
+      const noBtn = document.getElementById('noBtn');
+      const pleadText = document.getElementById('pleadText');
+      
       yesBtn.style.transform = `scale(${yesScale})`;
-      if (yesScale > 3) {
-        document.getElementById('noBtn').style.display = 'none';
+
+      if (noCount < noTexts.length) {
+        pleadText.innerText = noTexts[noCount];
+      } else {
+        pleadText.innerText = "무조건 YES!! 💖";
+      }
+
+      if (noCount >= 4) {
+        document.getElementById('question-text').innerText = "YES밖에 선택할 수 없어요! 💕";
+        noBtn.style.display = 'none';
       }
     }
 
     function selectPlace(btn, place) {
-      document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+      playSound('click');
+      document.querySelectorAll('#step2 .option-btn').forEach(b => b.classList.remove('selected'));
       btn.classList.add('selected');
       selectedCourse = place;
     }
 
     function nextStep(step) {
+      if(step === 4) {
+        playSound('win');
+      } else {
+        playSound('click');
+      }
       document.querySelectorAll('.card').forEach(el => el.classList.add('hidden'));
       document.getElementById('step' + step).classList.remove('hidden');
       
       if(step === 3) {
         const val = document.getElementById('datePicker').value;
+        document.getElementById('selectedHp').innerText = selectedHpVal;
         document.getElementById('selectedDate').innerText = val || "2026-08-15";
         document.getElementById('selectedPlace').innerText = selectedCourse;
       }
